@@ -1,5 +1,4 @@
-# Bootstrap-table-List For Distribution template 
-+ 基于bootstrap-table的配送模板表格列
+# Bootstrap-table-List For Distribution template <br/> 基于bootstrap-table的配送模板表格列
 The bootstrap-table list which I have designed is Based on bootstrap-table.(Your Product Manager:'I want it.')
 +我设计了一个基于bootstrap-table的表格列，在特定场合会用到它,尤其是产品经理坚持的时候
 基于Bootstrap-table的表格列
