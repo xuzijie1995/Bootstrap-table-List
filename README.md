@@ -9,3 +9,4 @@ This is the special advanced use of Bootstrap-table(It's more complicated than u
 这只是我对于Bootstrap-table的特殊使用方法，不涉及源码的改动,只要你用过Bootstrap-table，这肯定不难，只是你未必会想到用它做个我这样的配送模板出来，一般的使用就能够满足绝大部分场景了，像我这么大度的人，既然产品想要，我当然得给了。
 
 # What does it look like <br/> 来看看它到底长啥样
+![图片名称](https://raw.githubusercontent.com/xuzijie1995/Bootstrap-table-List/master/images/bootstrap-table-list-demo.jpg)
