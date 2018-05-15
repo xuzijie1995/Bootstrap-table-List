@@ -62,6 +62,7 @@ function addTra($data){
 		var $dd=[];
 		$n.push($data[i]['shipping_name']);
 		$id.push($data[i]['shipping_id']);
+		//My processe data 我的加工数据 start==>
 		var $m=$data[i]['methods'];
 		for(var j=0;j<$m.length;j++){
 			var temp={
@@ -76,6 +77,7 @@ function addTra($data){
 			$dd.push(temp);
 		}
 		$d[i]=$dd;
+		//Processe data 处理数据 ==>end
 		var $e = document.createElement("table");
 		fragment.appendChild($e);
 	}
