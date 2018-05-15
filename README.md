@@ -65,8 +65,7 @@ function addTra($data){
 		//My processe data 我的加工数据 start==>
 		var $m=$data[i]['methods'];
 		for(var j=0;j<$m.length;j++){
-			var temp={
-				shipping_area:$m[j]['shipping_area'],
+			var temp={  
 				shipping_area_name:$m[j]['shipping_area_name'],
 				is_default:$m[j]['is_default'],
 				firstNum:$m[j]['config']['firstNum'],
@@ -82,67 +81,64 @@ function addTra($data){
 		fragment.appendChild($e);
 	}
 	$(".traTablelist").append(fragment);
-	//生成配送表格
+	//create tables 生成配送表格
 	$(".traTablelist").find('table').each(function(i,e){
 		var oTraTable = new TraTableInit($n[i],$d[i],$id[i],e);
 		oTraTable.Init();
 	});
-	//初始化表格内的修改&删除按钮事件
+	//init listener 初始化表格内的修改&删除按钮事件
 	var oTraButtonInit = new TraButtonInit();
 	oTraButtonInit.Init();
 }
-//主函数
+//main ajax 主异步函数
 $(function(){
-	loadingOpen();
 	$.ajax({
 		type: "POST",
-		url: $base_path+'c=Shipping&m=getShippingList',
+		url: url,
 		contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
 		dataType: "json",
 		success: function(data){
-			loadingClose();
-		    switch (parseInt(data.code)){
-			case 1400300 :addTra(data.data);break;
-			default : error(this,data);break;
-		    }
+		    ...
+			addTra(data.data);
+		    ...
 		},
 		error:function(data){
-		error(this,data);
-	    }
+			...
+	    	}
 	});
 })
-//配送模块表格初始化构造
+//table setting 配置表格
 var TraTableInit = function ($t,$d,$id,$e) {
 	var oTraTableInit = new Object();
 	$($e).data("name",$t);
 	//初始化Table
 	oTraTableInit.Init = function () {
 		$($e).bootstrapTable({
-			url: '',   //请求后台的URL（*）
-			method: 'post',      //请求方式（*）
+			url: '',   
+			method: 'post',    
 			contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-			striped: true,      //是否显示行间隔色
-			cache: false,      //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
-			pagination: false,     //是否显示分页（*）
-			sortable: false,      //是否启用排序
-			sortOrder: "asc",     //排序方式
-			queryParams: '',//传递参数（*）
-			sidePagination: "client",   //分页方式：client客户端分页，server服务端分页（*）
-			pageNumber:1,      //初始化加载第一页，默认第一页
-			pageSize: 100,      //每页的记录行数（*）
-			pageList: [],  //可供选择的每页的行数（*）
-			search: false,      //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
+			striped: true,    
+			cache: false,      
+			pagination: false,     
+			sortable: false,      
+			sortOrder: "asc",   
+			queryParams: '',
+			sidePagination: "client", 
+			pageNumber:1, 
+			pageSize: 100,
+			pageList: [],
+			search: false,
 			strictSearch: false,
-			showColumns: false,     //是否显示所有的列
-			showRefresh: false,     //是否显示刷新按钮
-			minimumCountColumns: 2,    //最少允许的列数
-			clickToSelect: false,    //是否启用点击选中行
+			showColumns: false,
+			showRefresh: false,
+			minimumCountColumns: 2,
+			clickToSelect: false, 
 			singleSelect: false,
-			height: '',      //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
-			uniqueId: '',      //每一行的唯一标识，一般为主键列
-			showToggle:false,     //是否显示详细视图和列表视图的切换按钮
-			cardView: false,     //是否显示详细视图
-			detailView: false,     //是否显示父子表
+			height: '',
+			uniqueId: '',
+			showToggle:false,
+			cardView: false,
+			detailView: false,
 			showHeader:true,
 			columns: [
 			[{
@@ -158,7 +154,7 @@ var TraTableInit = function ($t,$d,$id,$e) {
 				field: 'shipping_area_name',
 				title: '配送区域',
 				formatter:function(value,row,index){
-					if(empty(value)){
+					if(empty(value)){ //function empty 0->F 1->T
 						return '默认';
 					}else{
 						return value;
@@ -186,15 +182,15 @@ var TraTableInit = function ($t,$d,$id,$e) {
 	};
 	return oTraTableInit;
 };
-//配送模块-初始化页面上面的按钮事件
+
 var TraButtonInit = function () {
 	var oTraButtonInit = new Object();
 	var postdata = {};
 	oTraButtonInit.Init = function () {
-	//初始化页面上面的按钮事件
+	//Delegated events 委托事件
 		$("div.traTablelist").on("click","a",function(e){
 			if(e.target.nodeName.toLowerCase()=='a'){
-				edit($(this));
+				edit($(this));//funtciont edit ->change <a>'s href 为a标签赋予href值会触发跳转 
 			}
 		});
 	};
@@ -202,5 +198,75 @@ var TraButtonInit = function () {
 };
  
  
+
 ```
+
+## Asynchronous data
+
+```jsx
+{"data":[
+	{
+		"shipping_id":"1",
+		"shipping_name":"整车模板",
+		"methods":[
+			{
+				"shipping_area_name":"",
+				"shipping_id":"1",
+				"parent_ids":"",
+				"is_default":"1",
+				"config":
+					{
+						"firstNum":"1",
+						"firstFee":"300.00",
+						"conNum":"1",
+						"conFee":"300.00"
+					}
+			},
+			{
+				"shipping_area_name":"北京,天津,河北,山西,内蒙古,辽宁,上海,江苏,浙江,安徽,江西,山东,河南,湖北,湖南,广东,广西,重庆,四川,贵州,云南,陕西,青海,宁夏回族自治区,",
+				"shipping_id":"1",
+				"parent_ids":"",
+				"is_default":"0",
+				"config":
+					{
+						"firstNum":"1",
+						"firstFee":"300.00",
+						"conNum":"1",
+						"conFee":"300.00"
+					}
+			},
+			{
+				"shipping_area_name":"吉林,黑龙江,甘肃,",
+				"shipping_id":"1",
+				"parent_ids":"",
+				"is_default":"0",
+				"config":
+					{
+						"firstNum":"1",
+						"firstFee":"500.00",
+						"conNum":"1",
+						"conFee":"500.00"
+					}
+			},
+			{	
+				"shipping_area_name":"西藏,",
+				"shipping_id":"1",
+				"parent_ids":"",
+				"is_default":"0",
+				"config":
+					{
+						"firstNum":"1",
+						"firstFee":"800.00",
+						"conNum":"1",
+						"conFee":"100.00"
+					}
+			},
+			]
+	},
+	...
+	]
+}
+```
+
+
 To be continue
