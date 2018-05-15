@@ -261,6 +261,7 @@ var TraButtonInit = function () {
 						"conFee":"100.00"
 					}
 			},
+			...
 			]
 	},
 	...
