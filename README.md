@@ -17,7 +17,7 @@ Please click the picture.
 + That's it. Just a little bit changes when you set your bootstrap-table.
 + You may ask 'Why don't you set the detailView true'. Of course, the detailView can handle it,but my PM wants that the details should be more intuitive. So I design this.
 + 就是这样，在你设置表格的时候来点小操作
-+ 父子表是我首先想到的，只不过，这不能很直观的看到所有表格里面的数据，尽管有方法，但我没有那么做，我不太喜欢那样。
++ 父子表是我首先想到的，只不过，这不能很直观的看到所有表格里面的数据，尽管有方法，但我没有那么做，我不太喜欢那样。所以我在原来表格的设计上再加了一个名称与操作的行
 
 # The setting code <br/> 代码
 
@@ -39,7 +39,7 @@ All of the following must be relied upon. Also, you can search 'bootstrap-table'
 ## My setting code <br/> 设置代码
 
 
-```jsx
+```html
 <html>
   ...
   <div class="form-group traTablelist">
@@ -49,7 +49,7 @@ All of the following must be relied upon. Also, you can search 'bootstrap-table'
 </html>
 ```
 
-```jsx
+```js/jq
 js/jq in script
  
 var $n=[];
@@ -200,13 +200,13 @@ var TraButtonInit = function () {
 
 ```
 ### Key Optimization 关键优化
-+ ```jsx document.createDocumentFragment(); ```<br/>Create a virtual node object, and then only operate 'append' once for DOM, reducing backflow.<br/>创建一个虚拟的节点对象,最后只对DOM操作append一次，减少回流
-+ ```jsx $.each(); ``` 遍历
-+ ```jsx$("div.traTablelist").on("click","a",function(e){...}); ```<br/>Delegated events<br/>委托事件
++ 1. ```jsx document.createDocumentFragment(); ```<br/>Create a virtual node object, and then only operate 'append' once for DOM, reducing backflow.<br/>创建一个虚拟的节点对象,最后只对DOM操作append一次，减少回流
++ 1. ```jsx $.each(); ``` 遍历
++ 1. ```jsx$("div.traTablelist").on("click","a",function(e){...}); ```<br/>Delegated events<br/>委托事件
 
 ## Asynchronous data <br/> 异步数据
 
-```jsx
+```data
 {"data":[
 	{
 		"shipping_id":"1",
