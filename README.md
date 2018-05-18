@@ -200,9 +200,9 @@ var TraButtonInit = function () {
 
 ```
 ### Key Optimization 关键优化
-+document.createDocumentFragment(); <br/>Create a virtual node object, and then only operate 'append' once for DOM, reducing backflow.<br/>创建一个虚拟的节点对象,最后只对DOM操作append一次，减少回流
-+$.each(); 遍历
-+$("div.traTablelist").on("click","a",function(e){...});<br/>Delegated events<br/>委托事件
++ document.createDocumentFragment(); <br/>Create a virtual node object, and then only operate 'append' once for DOM, reducing backflow.<br/>创建一个虚拟的节点对象,最后只对DOM操作append一次，减少回流
++ $.each(); 遍历
++ $("div.traTablelist").on("click","a",function(e){...});<br/>Delegated events<br/>委托事件
 
 ## Asynchronous data <br/> 异步数据
 
