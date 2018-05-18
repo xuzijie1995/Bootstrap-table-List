@@ -272,7 +272,7 @@ var TraButtonInit = function () {
 }
 ```
 
-#Extra <br/> 额外内容
+# Extra <br/> 额外内容
 + if you are interested in what in the 'button' which above the tables in the screenshot
-+ 如果你对截图中表格上方的“新增”按钮内容感兴趣的话
-[Bootstrap-region-selection](https://github.com/xuzijie1995/Bootstrap-region-selection)
++ 如果你对截图中表格上方的“新增”按钮内容感兴趣的话<br/>
+Go [Bootstrap-region-selection](https://github.com/xuzijie1995/Bootstrap-region-selection)
