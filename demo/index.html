@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>主页</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/bootstrap-table.min.css">
+    <style>
+    	body{
+    		margin:20px;
+    	}
+    	.traTablelist .bootstrap-table{
+    		margin:10px auto;
+    	}
+    </style>
+</head>
+
+<body>
+	<div class="form-group traTablelist">
+	</div> 
+</body>
+<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js">
+</script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/bootstrap-table.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/locale/bootstrap-table-zh-CN.min.js"></script>
+<script type="text/javascript">
+
+var $n=[];
+var $id=[];
+var $d={};
+//检测参数是否为空 ,null=>t !null=>f
+function empty($str){
+	if($str==null||$str=='')return true;
+	else return false;
+}
+function addTra($data){
+	var fragment = document.createDocumentFragment();
+	for(var i=0;i<$data.length;i++){
+		var $dd=[];
+		$n.push($data[i]['shipping_name']);
+		$id.push($data[i]['shipping_id']);
+		//My processe data 我的加工数据 start==>
+		var $m=$data[i]['methods'];
+		for(var j=0;j<$m.length;j++){
+			var temp={  
+				shipping_area_name:$m[j]['shipping_area_name'],
+				is_default:$m[j]['is_default'],
+				firstNum:$m[j]['config']['firstNum'],
+				firstFee:$m[j]['config']['firstFee'],
+				conNum:$m[j]['config']['conNum'],
+				conFee:$m[j]['config']['conFee'],
+			}
+			$dd.push(temp);
+		}
+		$d[i]=$dd;
+		//Processe data 处理数据 ==>end
+		var $e = document.createElement("table");
+		fragment.appendChild($e);
+	}
+	$(".traTablelist").append(fragment);
+	//create tables 生成配送表格
+	$(".traTablelist").find('table').each(function(i,e){
+		var oTraTable = new TraTableInit($n[i],$d[i],$id[i],e);
+		oTraTable.Init();
+	});
+	//init listener 初始化表格内的修改&删除按钮事件
+	var oTraButtonInit = new TraButtonInit();
+	oTraButtonInit.Init();
+}
+//main ajax 主异步函数
+$(function(){
+	$.ajax({
+		type: "get",
+		url: 'data.json',
+		contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+		dataType: "json",
+		success: function(data){
+			addTra(data.data);
+		},
+		error:function(data){
+	    }
+	});
+})
+//table setting 配置表格
+var TraTableInit = function ($t,$d,$id,$e) {
+	var oTraTableInit = new Object();
+	$($e).data("name",$t);
+	//初始化Table
+	oTraTableInit.Init = function () {
+		$($e).bootstrapTable({
+			url: '',   
+			method: 'post',    
+			contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+			striped: true,    
+			cache: false,      
+			pagination: false,     
+			sortable: false,      
+			sortOrder: "asc",   
+			queryParams: '',
+			sidePagination: "client", 
+			pageNumber:1, 
+			pageSize: 100,
+			pageList: [],
+			search: false,
+			strictSearch: false,
+			showColumns: false,
+			showRefresh: false,
+			minimumCountColumns: 2,
+			clickToSelect: false, 
+			singleSelect: false,
+			height: '',
+			uniqueId: '',
+			showToggle:false,
+			cardView: false,
+			detailView: false,
+			showHeader:true,
+			columns: [
+			[{
+				field: '',
+				title: '模块名称:'+$t,
+				align: 'left'
+			},{
+				field: '',
+				title: '<a href="javascript:void(0)" data-id="'+$id+'" data-url="distributionEdit.html" data-index="1400">编辑</a><span style="margin-right:15px"></span>',
+				align: 'right',
+				colspan: 4,
+			}],[{
+				field: 'shipping_area_name',
+				title: '配送区域',
+				formatter:function(value,row,index){
+					if(empty(value)){ //function empty 0->F 1->T
+						return '默认';
+					}else{
+						return value;
+					}
+				}
+			},{
+				field: 'firstNum',
+				title: '首件',
+				width:100
+			},{
+				field: 'firstFee',
+				title: '首费',
+				width:100
+			},{
+				field: 'conNum',
+				title: '续件',
+				width:100
+			},{
+				field: 'conFee',
+				title: '续费',
+				width:100
+			}]],
+			data: $d
+		});
+	};
+	return oTraTableInit;
+};
+
+var TraButtonInit = function () {
+	var oTraButtonInit = new Object();
+	var postdata = {};
+	oTraButtonInit.Init = function () {
+	//Delegated events 委托事件
+		$("div.traTablelist").on("click","a",function(e){
+			if(e.target.nodeName.toLowerCase()=='a'){
+				//edit($(this));//my funtciont edit ->change <a>'s href 为a标签赋予href值会触发跳转 
+			}
+		});
+	};
+	return oTraButtonInit;
+};
+</script>
+</html>
